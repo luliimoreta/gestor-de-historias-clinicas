@@ -4,7 +4,8 @@ const ASSETS = [
     '/index.html',
     '/style.css',
     '/script.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+    'https://unpkg.com/dexie/dist/dexie.js'
 ];
 
 self.addEventListener('install', event => {
