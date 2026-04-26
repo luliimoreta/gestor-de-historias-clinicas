@@ -1,0 +1,135 @@
+// Data Management
+-let patients = JSON.parse(localStorage.getItem('patients')) || [
+-    { id: 1, name: "Juan Pérez", age: 45, lastVisit: "Hace 2 horas", triage: "emergency" },
+-    { id: 2, name: "María García", age: 32, lastVisit: "Hace 5 horas", triage: "urgent" },
+-    { id: 3, name: "Carlos Rodríguez", age: 58, lastVisit: "Ayer", triage: "standard" },
+-    { id: 4, name: "Ana Martínez", age: 24, lastVisit: "Hace 15 min", triage: "urgent" },
+-    { id: 5, name: "Roberto Sánchez", age: 67, lastVisit: "Hace 3 días", triage: "standard" },
+-    { id: 6, name: "Elena Gómez", age: 19, lastVisit: "Hace 1 hora", triage: "emergency" }
+-];
+-
+-function savePatients() {
+-    localStorage.setItem('patients', JSON.stringify(patients));
+-}
+-
+-// UI Rendering
+-function renderPatients(filter = "") {
+-    const list = document.getElementById('patientList');
+-    if (!list) return;
+-    list.innerHTML = "";
+-
+-    const filtered = patients.filter(p => 
+-        p.name.toLowerCase().includes(filter.toLowerCase())
+-    ).sort((a, b) => b.id - a.id); // Show newest first
+-
+-    filtered.forEach(p => {
+-        const card = document.createElement('div');
+-        card.className = 'patient-card';
+-        card.innerHTML = `
+-            <div class="triage-indicator triage-${p.triage}"></div>
+-            <div class="patient-info">
+-                <div class="patient-name">${p.name}</div>
+-                <div class="patient-meta">${p.age} años • ${p.lastVisit}</div>
+-            </div>
+-            <i class="fas fa-chevron-right" style="color: #BDC3C7"></i>
+-        `;
+-        list.appendChild(card);
+-    });
+-
+-    updateStats();
+-}
+-
+-function updateStats() {
+-    const counts = { emergency: 0, urgent: 0, standard: 0 };
+-    patients.forEach(p => counts[p.triage]++);
+-
+-    const total = patients.length;
+-    document.getElementById('totalToday').innerText = total;
+-
+-    const chart = document.getElementById('triageChart');
+-    if (!chart) return;
+-    chart.innerHTML = `
+-        <div class="bar-item emergency-bar" style="height: ${(counts.emergency/total)*100}%" data-label="Emergencia" data-value="${counts.emergency}"></div>
+-        <div class="bar-item urgent-bar" style="height: ${(counts.urgent/total)*100}%" data-label="Urgente" data-value="${counts.urgent}"></div>
+-        <div class="bar-item standard-bar" style="height: ${(counts.standard/total)*100}%" data-label="Estándar" data-value="${counts.standard}"></div>
+-    `;
+-}
+-
+-// View Switching
+-const views = {
+-    home: document.getElementById('homeView'),
+-    stats: document.getElementById('statsView')
+-};
+-
+-const navItems = {
+-    home: document.getElementById('navHome'),
+-    stats: document.getElementById('navStats')
+-};
+-
+-function switchView(viewName) {
+-    Object.values(views).forEach(v => v.classList.remove('active'));
+-    Object.values(navItems).forEach(n => n.classList.remove('active'));
+-
+-    views[viewName].classList.add('active');
+-    navItems[viewName].classList.add('active');
+-
+-    if (viewName === 'stats') updateStats();
+-}
+-
+-navItems.home.addEventListener('click', () => switchView('home'));
+-navItems.stats.addEventListener('click', () => switchView('stats'));
+-
+-// Modal Handling
+-const modal = document.getElementById('modalOverlay');
+-const openBtn = document.getElementById('newPatientBtn');
+-const closeBtn = document.getElementById('closeModal');
+-const form = document.getElementById('newPatientForm');
+-
+-openBtn.addEventListener('click', () => {
+-    modal.style.display = 'flex';
+-});
+-
+-closeBtn.addEventListener('click', () => {
+-    modal.style.display = 'none';
+-});
+-
+-window.addEventListener('click', (e) => {
+-    if (e.target === modal) modal.style.display = 'none';
+-});
+-
+-form.addEventListener('submit', (e) => {
+-    e.preventDefault();
+-    
+-    const newPatient = {
+-        id: Date.now(),
+-        name: document.getElementById('pName').value,
+-        age: document.getElementById('pAge').value,
+-        triage: document.getElementById('pTriage').value,
+-        lastVisit: "Recién ingresado"
+-    };
+-
+-    patients.push(newPatient);
+-    savePatients();
+-    renderPatients();
+-    
+-    form.reset();
+-    modal.style.display = 'none';
+-});
+-
+-// Search
+-document.getElementById('searchInput').addEventListener('input', (e) => {
+-    renderPatients(e.target.value);
+-});
+-
+-// Initialize
+-renderPatients();
+-
+-// Register Service Worker
+-if ('serviceWorker' in navigator) {
+-    window.addEventListener('load', () => {
+-        navigator.serviceWorker.register('sw.js')
+-            .then(reg => console.log('SW registrado'))
+-            .catch(err => console.log('SW error', err));
+-    });
+-}
+-

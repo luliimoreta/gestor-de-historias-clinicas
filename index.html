@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>VitalDoc - Gestión Clínica</title>
+    <meta name="theme-color" content="#2C3E50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar Pacientes..." id="searchInput">
+            </div>
+        </header>
+
+        <main id="mainContent">
+            <!-- Home View -->
+            <section id="homeView" class="view-section active">
+                <h2>PACIENTES RECIENTES</h2>
+                <div id="patientList">
+                    <!-- Patient cards will be injected by script.js -->
+                </div>
+            </section>
+
+            <!-- Statistics View -->
+            <section id="statsView" class="view-section">
+                <h2>ESTADÍSTICAS</h2>
+                <div class="chart-card">
+                    <div class="chart-title">Distribución de Triaje</div>
+                    <div class="bar-chart" id="triageChart">
+                        <!-- Bars will be injected by script.js -->
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title">Resumen de Actividad</div>
+                    <p style="font-size: 14px; color: var(--text-secondary);">Total de pacientes hoy: <span id="totalToday" style="font-weight: 700; color: var(--navy-blue);">0</span></p>
+                </div>
+            </section>
+        </main>
+
+        <div class="fab" id="newPatientBtn">
+            <i class="fas fa-plus"></i>
+            <span>NUEVO PACIENTE</span>
+        </div>
+
+        <nav>
+            <a href="#" class="nav-item active" id="navHome">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Agenda</span>
+            </a>
+            <a href="#" class="nav-item" id="navStats">
+                <i class="fas fa-chart-line"></i>
+                <span>Estadísticas</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Ajustes</span>
+            </a>
+        </nav>
+
+        <!-- New Patient Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Nuevo Paciente</div>
+                    <div class="close-btn" id="closeModal">&times;</div>
+                </div>
+                <form id="newPatientForm">
+                    <div class="form-group">
+                        <label for="pName">Nombre Completo</label>
+                        <input type="text" id="pName" placeholder="Ej: Juan Pérez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pAge">Edad</label>
+                        <input type="number" id="pAge" placeholder="Ej: 30" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pTriage">Estado de Triaje</label>
+                        <select id="pTriage" required>
+                            <option value="standard">🟢 Estándar</option>
+                            <option value="urgent">🟡 Urgente</option>
+                            <option value="emergency">🔴 Emergencia</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">GUARDAR PACIENTE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
