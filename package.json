@@ -1,0 +1,13 @@
+{
+  "name": "vitaldoc-pwa",
+  "version": "1.0.0",
+  "description": "Gestor de Historias Clínicas PWA",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}
