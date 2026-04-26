@@ -5,7 +5,9 @@ const ASSETS = [
     '/style.css',
     '/script.js',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-    'https://unpkg.com/dexie/dist/dexie.js'
+    'https://unpkg.com/dexie/dist/dexie.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    'https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js'
 ];
 
 self.addEventListener('install', event => {

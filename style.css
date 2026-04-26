@@ -137,6 +137,24 @@ h2 {
     color: var(--text-secondary);
 }
 
+.export-pdf-btn {
+    background: #FADBD8;
+    color: #E74C3C;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.export-pdf-btn:hover {
+    background: #F5B7B1;
+}
+
 /* FAB */
 .fab {
     position: fixed;
