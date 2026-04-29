@@ -101,16 +101,29 @@ async function updateStats() {
 }
 
 // View Switching
-const views = { home: document.getElementById('homeView'), stats: document.getElementById('statsView') };
-const navItems = { home: document.getElementById('navHome'), stats: document.getElementById('navStats') };
+const views = { 
+    home: document.getElementById('homeView'), 
+    stats: document.getElementById('statsView'),
+    agenda: document.getElementById('agendaView'),
+    ajustes: document.getElementById('ajustesView')
+};
+const navItems = { 
+    home: document.getElementById('navHome'), 
+    stats: document.getElementById('navStats'),
+    agenda: document.getElementById('navAgenda'),
+    ajustes: document.getElementById('navAjustes')
+};
 function switchView(v) {
-    Object.values(views).forEach(x => x.classList.remove('active'));
-    Object.values(navItems).forEach(x => x.classList.remove('active'));
-    views[v].classList.add('active'); navItems[v].classList.add('active');
+    Object.values(views).forEach(x => { if(x) x.classList.remove('active'); });
+    Object.values(navItems).forEach(x => { if(x) x.classList.remove('active'); });
+    if(views[v]) views[v].classList.add('active'); 
+    if(navItems[v]) navItems[v].classList.add('active');
     if (v === 'stats') updateStats();
 }
-navItems.home.addEventListener('click', () => switchView('home'));
-navItems.stats.addEventListener('click', () => switchView('stats'));
+if(navItems.home) navItems.home.addEventListener('click', () => switchView('home'));
+if(navItems.stats) navItems.stats.addEventListener('click', () => switchView('stats'));
+if(navItems.agenda) navItems.agenda.addEventListener('click', () => switchView('agenda'));
+if(navItems.ajustes) navItems.ajustes.addEventListener('click', () => switchView('ajustes'));
 
 // Modal Handling
 const modal = document.getElementById('modalOverlay');

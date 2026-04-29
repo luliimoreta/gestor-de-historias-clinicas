@@ -7,6 +7,8 @@
     <meta name="theme-color" content="#2C3E50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="ICONO.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="ICONO.jpg">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -46,6 +48,41 @@
                     <p style="font-size: 14px; color: var(--text-secondary);">Total de pacientes hoy: <span id="totalToday" style="font-weight: 700; color: var(--navy-blue);">0</span></p>
                 </div>
             </section>
+
+            <!-- Agenda View -->
+            <section id="agendaView" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2>AGENDA</h2>
+                    <button id="newAppointmentBtn" class="export-pdf-btn" style="width: auto; padding: 0 16px; font-weight: bold; background: var(--medical-blue); color: white; border-radius: 8px;">
+                        <i class="fas fa-plus"></i>&nbsp; Nuevo Turno
+                    </button>
+                </div>
+                <div id="appointmentsList">
+                    <!-- Appointments will be injected here -->
+                </div>
+            </section>
+
+            <!-- Ajustes View -->
+            <section id="ajustesView" class="view-section">
+                <h2>CONFIGURACIÓN DEL MÉDICO</h2>
+                <div class="chart-card">
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="docName">Nombre del Médico</label>
+                            <input type="text" id="docName" placeholder="Ej: Dr. Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="docSpec">Especialidad</label>
+                            <input type="text" id="docSpec" placeholder="Ej: Cardiología" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="docClinic">Nombre de la Clínica / Consultorio</label>
+                            <input type="text" id="docClinic" placeholder="Ej: Centro Médico Salud" required>
+                        </div>
+                        <button type="submit" class="submit-btn" id="saveSettingsBtn">GUARDAR CONFIGURACIÓN</button>
+                    </form>
+                </div>
+            </section>
         </main>
 
         <div class="fab" id="newPatientBtn">
@@ -58,7 +95,7 @@
                 <i class="fas fa-home"></i>
                 <span>Inicio</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" id="navAgenda">
                 <i class="fas fa-calendar-alt"></i>
                 <span>Agenda</span>
             </a>
@@ -66,7 +103,7 @@
                 <i class="fas fa-chart-line"></i>
                 <span>Estadísticas</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" id="navAjustes">
                 <i class="fas fa-cog"></i>
                 <span>Ajustes</span>
             </a>
@@ -104,6 +141,35 @@
                         <button type="button" id="clearSignature" style="background: none; border: none; color: var(--medical-blue); font-size: 12px; margin-top: 5px; cursor: pointer;">Limpiar firma</button>
                     </div>
                     <button type="submit" class="submit-btn">GUARDAR PACIENTE</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- New Appointment Modal -->
+        <div class="modal-overlay" id="appointmentModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Nuevo Turno</div>
+                    <div class="close-btn" id="closeAppointmentModal">&times;</div>
+                </div>
+                <form id="newAppointmentForm">
+                    <div class="form-group">
+                        <label for="aptPatient">Nombre del Paciente</label>
+                        <input type="text" id="aptPatient" placeholder="Ej: María Gómez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aptDate">Fecha</label>
+                        <input type="date" id="aptDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aptTime">Hora</label>
+                        <input type="time" id="aptTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aptReason">Motivo de Consulta</label>
+                        <input type="text" id="aptReason" placeholder="Ej: Control general" required>
+                    </div>
+                    <button type="submit" class="submit-btn">AGENDAR TURNO</button>
                 </form>
             </div>
         </div>

@@ -1,9 +1,11 @@
-const CACHE_NAME = 'vitaldoc-v1';
+const CACHE_NAME = 'vitaldoc-v2';
 const ASSETS = [
     '/',
     '/index.html',
     '/style.css',
     '/script.js',
+    '/manifest.json',
+    '/ICONO.jpg',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
     'https://unpkg.com/dexie/dist/dexie.js',
     'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
