@@ -1,9 +1,9 @@
 // Database Initialization
 const db = new Dexie("VitalDocDB");
-db.version(3).stores({
+db.version(4).stores({
     patients: "++id, name, age, triage, lastVisit, signature",
     appointments: "++id, patient, date, time, reason",
-    settings: "id, name, spec, clinic"
+    settings: "id"
 });
 
 // Signature Pad Initialization
@@ -235,35 +235,46 @@ if (aptForm) {
 }
 
 // Doctor Settings Handling
+async function loadSettings() {
+    const s = await db.settings.get(1);
+    if (s) {
+        if (document.getElementById('docName')) document.getElementById('docName').value = s.name || "";
+        if (document.getElementById('docSpec')) document.getElementById('docSpec').value = s.spec || "";
+        if (document.getElementById('docClinic')) document.getElementById('docClinic').value = s.clinic || "";
+    }
+}
+
 const settingsForm = document.getElementById('settingsForm');
 if (settingsForm) {
-    // Load initial settings
-    db.settings.get(1).then(s => {
-        if (s) {
-            document.getElementById('docName').value = s.name || "";
-            document.getElementById('docSpec').value = s.spec || "";
-            document.getElementById('docClinic').value = s.clinic || "";
-        }
-    });
-
     settingsForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const settings = {
-            id: 1,
-            name: document.getElementById('docName').value,
-            spec: document.getElementById('docSpec').value,
-            clinic: document.getElementById('docClinic').value
-        };
-        await db.settings.put(settings);
-        alert('Configuración guardada correctamente.');
+        try {
+            const settings = {
+                id: 1,
+                name: document.getElementById('docName').value,
+                spec: document.getElementById('docSpec').value,
+                clinic: document.getElementById('docClinic').value
+            };
+            await db.settings.put(settings);
+            alert('Configuración guardada correctamente.');
+        } catch (error) {
+            console.error("Error saving settings:", error);
+            alert('Error al guardar la configuración: ' + error.message);
+        }
     });
 }
 
 // Search and Initialize
 document.getElementById('searchInput').addEventListener('input', (e) => renderPatients(e.target.value));
 async function init() { 
-    await renderPatients(); 
-    await renderAppointments();
+    try {
+        await db.open();
+        await renderPatients(); 
+        await renderAppointments();
+        await loadSettings();
+    } catch (err) {
+        console.error("Failed to open db:", err);
+    }
 }
 init();
 
